@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bg-top-image {
+  @apply bg-[url('/images/bg-header-mobile.svg')] md:bg-[url('/images/bg-header-desktop.svg')]
+}
+
+@layer base {
+ body {
+  @apply font-league-spartan font-medium
+}
+}
