@@ -7,6 +7,7 @@ module.exports = {
         "desaturated-dark-cyan": " 	#5BA4A4",
         "light-grayish-cyan-bg": "#EFFAFA",
         "light-grayish-cyan-filter": "#EEF6F6",
+        "very-light-grayisn-cyan": "B7C4C4",
         "dark-grayish-cyan": "#7B8E8E",
         "very-dark-grayish-cyan": "#2C3A3A",
       },
