@@ -8,19 +8,22 @@
 
 @layer base {
   body {
-    @apply font-league-spartan font-medium;
+    @apply font-medium;
   }
 }
 
-
 @layer utilities {
   .transition-hover {
-    @apply transition-colors duration-200 ease-linear
+    @apply transition-colors duration-200 ease-linear;
   }
 }
 
 @layer components {
   .featured-bar {
-    @apply absolute h-full w-[5px] bg-desaturated-dark-cyan left-0 top-0
+    @apply absolute rounded-l-md h-full w-[5px] bg-desaturated-dark-cyan left-0 top-0;
+  }
+
+  .circle-divisor {
+    @apply w-1 h-1 bg-very-light-grayisn-cyan rounded-full;
   }
 }

@@ -1,4 +1,5 @@
 <script setup>
+import JobCard from "./components/JobCard.vue";
 import useJobs from "./composables/useJobs";
 
 const { jobs } = useJobs();
@@ -12,7 +13,8 @@ const { jobs } = useJobs();
     <!-- Job listings -->
     <main class="px-6 mx-auto mt-16 md:mt-24 w-full max-w-[1200px]">
       <ul>
-        <li v-for="job in jobs" :key="job.id" class="mb-8">
+        <li v-for="job in jobs" :key="job.id" class="mb-12 md:mb-8">
+          <JobCard :job="job" />
         </li>
       </ul>
     </main>
