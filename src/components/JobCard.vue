@@ -1,4 +1,6 @@
 <script setup>
+import FilterItem from "./FilterItem.vue";
+
 defineProps({
   job: {
     required: true,
@@ -9,28 +11,35 @@ defineProps({
 
 <template>
   <div
-    class="relative w-full bg-white rounded-md py-8 px-12 max-md:p-7 md:flex items-center justify-between gap-10 shadow-lg"
+    class="relative w-full min-w-fit bg-white rounded-md py-8 px-12 max-md:p-7 md:flex items-center justify-between gap-10 shadow-lg"
     :class="{ 'before:featured-bar': job.featured }"
   >
     <!-- General info -->
-    <div class="flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-6">
-      <img :src="job.logo" alt="Company Logo" aria-hidden="true" class="w-12 h-12 md:w-[5.5rem] md:h-[5.5rem] -mt-[3.2rem] md:mt-0" />
+    <div class="shrink-0 flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-6">
+      <img
+        :src="job.logo"
+        alt="Company Logo"
+        aria-hidden="true"
+        class="w-12 h-12 md:w-[5.5rem] md:h-[5.5rem] -mt-[3.2rem] md:mt-0"
+      />
 
       <div class="flex flex-col gap-3 md:gap-2">
         <div class="flex items-center gap-2 md:gap-3">
-          <h5 class="font-bold text-[0.8125rem] md:text-lg text-desaturated-dark-cyan mr-8 md:mr-3">
+          <h5 class="font-bold text-[0.8125rem] md:text-lg text-desaturated-dark-cyan mr-3 xs:mr-8 md:mr-3">
             {{ job.company }}
           </h5>
-          <span
-            v-if="job.new"
-            class="uppercase font-bold text-white bg-desaturated-dark-cyan px-3 py-1 rounded-full"
-            >new!</span
-          >
-          <span
-            v-if="job.featured"
-            class="uppercase font-bold text-white bg-very-dark-grayish-cyan px-3 py-1 rounded-full"
-            >featured</span
-          >
+          <div class="flex gap-2">
+            <span
+              v-if="job.new"
+              class="uppercase font-bold text-white bg-desaturated-dark-cyan px-3 py-1 rounded-full"
+              >new!</span
+            >
+            <span
+              v-if="job.featured"
+              class="uppercase font-bold text-white bg-very-dark-grayish-cyan px-3 py-1 rounded-full"
+              >featured</span
+            >
+          </div>
         </div>
 
         <h3
@@ -39,7 +48,7 @@ defineProps({
           {{ job.position }}
         </h3>
 
-        <div class="flex gap-4 items-center text-dark-grayish-cyan md:text-lg">
+        <div class="flex gap-4 max-xs:gap-2 items-center text-dark-grayish-cyan md:text-lg">
           <p>{{ job.postedAt }}</p>
           <div class="circle-divisor"></div>
           <p>{{ job.contract }}</p>
@@ -52,12 +61,11 @@ defineProps({
     <hr class="h-px mt-5 mb-4 bg-dark-grayish-cyan md:hidden" />
 
     <!-- Role, level, languages and tools -->
-    <div class="flex flex-wrap">
-      <div
-        class="cursor-pointer p-2 rounded-md font-bold bg-light-grayish-cyan-filter text-desaturated-dark-cyan hover:bg-desaturated-dark-cyan hover:text-white hover:transition-hover"
-      >
-        Frontend
-      </div>
+    <div class="flex gap-5 flex-wrap md:justify-end">
+      <FilterItem :item="job.role" />
+      <FilterItem :item="job.level" />
+      <FilterItem v-for="language in job.languages" :key="language" :item="language" />
+      <FilterItem v-for="tool in job.tools" :key="tool" :item="tool" />
     </div>
   </div>
 </template>
