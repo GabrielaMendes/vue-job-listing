@@ -3,11 +3,24 @@
 @tailwind utilities;
 
 .bg-top-image {
-  @apply bg-[url('/images/bg-header-mobile.svg')] md:bg-[url('/images/bg-header-desktop.svg')]
+  @apply bg-[url('/images/bg-header-mobile.svg')] md:bg-[url('/images/bg-header-desktop.svg')];
 }
 
 @layer base {
- body {
-  @apply font-league-spartan font-medium
+  body {
+    @apply font-league-spartan font-medium;
+  }
 }
+
+
+@layer utilities {
+  .transition-hover {
+    @apply transition-colors duration-200 ease-linear
+  }
+}
+
+@layer components {
+  .featured-bar {
+    @apply absolute h-full w-[5px] bg-desaturated-dark-cyan left-0 top-0
+  }
 }
