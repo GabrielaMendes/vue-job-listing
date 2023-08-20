@@ -62,10 +62,15 @@ defineProps({
 
     <!-- Role, level, languages and tools -->
     <div class="flex gap-5 flex-wrap md:justify-end">
-      <FilterItem :item="job.role" />
-      <FilterItem :item="job.level" />
-      <FilterItem v-for="language in job.languages" :key="language" :item="language" />
-      <FilterItem v-for="tool in job.tools" :key="tool" :item="tool" />
+      <FilterItem :item="job.role" category="role" />
+      <FilterItem :item="job.level" category="level" />
+      <FilterItem
+        v-for="language in job.languages"
+        :key="language"
+        :item="language"
+        category="languages"
+      />
+      <FilterItem v-for="tool in job.tools" :key="tool" :item="tool" category="tools" />
     </div>
   </div>
 </template>
