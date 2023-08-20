@@ -11,6 +11,33 @@ const { jobs } = useJobs();
 const filtersStore = useFiltersStore();
 const { filters } = storeToRefs(filtersStore);
 const hasFilters = computed(() => filters.value.length > 0);
+
+const filteredJobs = computed(() => {
+  if (!hasFilters.value) {
+    return jobs;
+  }
+
+  return jobs.filter((job) => {
+    for (const filter of filters.value) {
+      switch (filter.category) {
+        case "role":
+          if (job.role !== filter.name) return false;
+          break;
+        case "level":
+          if (job.level !== filter.name) return false;
+          break;
+        case "languages":
+          if (!job.languages.includes(filter.name)) return false;
+          break;
+        case "tools":
+          if (!job.tools.includes(filter.name)) return false;
+          break;
+      }
+    }
+    
+    return true;
+  });
+});
 </script>
 
 <template>
@@ -18,9 +45,9 @@ const hasFilters = computed(() => filters.value.length > 0);
     <!-- Top bar -->
     <div class="h-[9.75rem] bg-desaturated-dark-cyan bg-top-image"></div>
 
-    <main 
+    <main
       class="px-5 mx-auto w-full max-w-[1200px]"
-      :class="hasFilters ? '-mt-10' : 'mt-16 md:mt-[5.5rem]'"  
+      :class="hasFilters ? '-mt-10' : 'mt-16 md:mt-[5.5rem]'"
     >
       <!-- Filters -->
       <div
@@ -46,7 +73,7 @@ const hasFilters = computed(() => filters.value.length > 0);
 
       <!-- Job listings -->
       <ul>
-        <li v-for="job in jobs" :key="job.id" class="mb-12 md:mb-7">
+        <li v-for="job in filteredJobs" :key="job.id" class="mb-12 md:mb-7">
           <JobCard :job="job" />
         </li>
       </ul>
