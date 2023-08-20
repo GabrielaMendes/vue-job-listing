@@ -11,7 +11,7 @@ defineProps({
 
 <template>
   <div
-    class="relative w-full min-w-fit bg-white rounded-md py-8 px-12 max-md:p-7 md:flex items-center justify-between gap-10 shadow-lg"
+    class="relative card min-w-fit rounded-md md:flex items-center justify-between gap-10"
     :class="{ 'before:featured-bar': job.featured }"
   >
     <!-- General info -->
@@ -25,7 +25,9 @@ defineProps({
 
       <div class="flex flex-col gap-3 md:gap-2">
         <div class="flex items-center gap-2 md:gap-3">
-          <h5 class="font-bold text-[0.8125rem] md:text-lg text-desaturated-dark-cyan mr-3 xs:mr-8 md:mr-3">
+          <h5
+            class="font-bold text-[0.8125rem] md:text-lg text-desaturated-dark-cyan mr-3 xs:mr-8 md:mr-3"
+          >
             {{ job.company }}
           </h5>
           <div class="flex gap-2">

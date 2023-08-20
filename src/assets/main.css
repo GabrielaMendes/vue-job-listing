@@ -19,6 +19,10 @@
 }
 
 @layer components {
+  .card {
+    @apply w-full bg-white shadow-lg rounded-md py-8 px-12 max-md:p-7;
+  }
+
   .featured-bar {
     @apply absolute rounded-l-md h-full w-[5px] bg-desaturated-dark-cyan left-0 top-0;
   }
