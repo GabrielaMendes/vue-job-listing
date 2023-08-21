@@ -63,7 +63,7 @@ defineProps({
     <hr class="h-px mt-5 mb-4 bg-dark-grayish-cyan md:hidden" />
 
     <!-- Role, level, languages and tools -->
-    <div class="flex gap-5 flex-wrap md:justify-end">
+    <ul class="flex gap-5 flex-wrap md:justify-end">
       <FilterItem :item="job.role" category="role" />
       <FilterItem :item="job.level" category="level" />
       <FilterItem
@@ -73,6 +73,6 @@ defineProps({
         category="languages"
       />
       <FilterItem v-for="tool in job.tools" :key="tool" :item="tool" category="tools" />
-    </div>
+    </ul>
   </div>
 </template>

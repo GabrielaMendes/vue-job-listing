@@ -1,8 +1,8 @@
 <script setup>
+import FilterItem from "./components/FilterItem.vue";
 import JobCard from "@/components/JobCard.vue";
 import useJobs from "@/composables/useJobs";
 import { useFiltersStore } from "@/stores/filters";
-import FilterItem from "./components/FilterItem.vue";
 import { storeToRefs } from "pinia";
 import { computed } from "vue";
 
@@ -34,7 +34,7 @@ const filteredJobs = computed(() => {
           break;
       }
     }
-    
+
     return true;
   });
 });
@@ -45,16 +45,17 @@ const filteredJobs = computed(() => {
     <!-- Top bar -->
     <div class="h-[9.75rem] bg-desaturated-dark-cyan bg-top-image"></div>
 
-    <main
-      class="px-5 mx-auto w-full max-w-[1200px]"
-      :class="hasFilters ? '-mt-10' : 'mt-16 md:mt-[5.5rem]'"
-    >
+    <main class="px-5 -mt-10 mx-auto w-full max-w-[1200px]">
       <!-- Filters -->
       <div
-        v-show="hasFilters"
-        class="card py-5 mb-16 md:mb-12 flex items-center justify-between gap-10"
+        class="card overflow-hidden min-h-[5rem] py-5 mb-16 md:mb-12 flex items-center justify-between gap-10 transition-opacity duration-300"
+        :class="{ 'opacity-0': !hasFilters }"
       >
-        <div class="flex gap-5 flex-wrap">
+        <transition-group
+          tag="ul"
+          name="list"
+          class="relative flex gap-5 flex-wrap"
+        >
           <FilterItem
             v-for="filter in filtersStore.filters"
             :key="filter.name"
@@ -62,7 +63,7 @@ const filteredJobs = computed(() => {
             :category="filter.category"
             :removable="true"
           />
-        </div>
+        </transition-group>
         <button
           @click.prevent="filtersStore.clearFilters"
           class="text-dark-grayish-cyan font-bold hover:text-desaturated-dark-cyan hover:underline transition-hover"
@@ -72,11 +73,53 @@ const filteredJobs = computed(() => {
       </div>
 
       <!-- Job listings -->
-      <ul>
+      <transition-group
+        tag="ul"
+        name="grow"
+        :appear="true"
+        class="relative flex flex-col justify-center"
+        :class="{ 'max-md:-translate-y-10': !hasFilters }"
+      >
         <li v-for="job in filteredJobs" :key="job.id" class="mb-12 md:mb-7">
           <JobCard :job="job" />
         </li>
-      </ul>
+      </transition-group>
     </main>
   </div>
 </template>
+
+<style>
+/* Transitions */
+.grow-enter-from,
+.grow-leave-to {
+  @apply opacity-0 scale-75;
+}
+
+.grow-enter-active,
+.grow-leave-active,
+.grow-move {
+  @apply transition-all duration-300 ease-linear;
+}
+
+.grow-leave-active {
+  @apply absolute;
+}
+
+.list-enter-from {
+  @apply opacity-0 translate-x-6;
+}
+
+.list-leave-to {
+  @apply opacity-0;
+}
+
+.list-enter-active,
+.list-leave-active,
+.list-move {
+  @apply transition-all duration-300 ease-linear;
+}
+
+.list-leave-active {
+  @apply absolute;
+}
+</style>
