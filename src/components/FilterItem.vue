@@ -2,7 +2,7 @@
 import { useFiltersStore } from "@/stores/filters";
 import IconRemove from "./icons/IconRemove.vue";
 
-defineProps({
+const props = defineProps({
   item: {
     required: true,
     type: String,
@@ -18,11 +18,24 @@ defineProps({
 });
 
 const { addFilter, removeFilter } = useFiltersStore();
+
+const handleFilterClick = () => {
+  if (!props.removable) {
+    addFilter({
+      name: props.item,
+      category: props.category,
+    });
+  }
+};
+
+const handleRemove = (item) => {
+  removeFilter(item);
+};
 </script>
 
 <template>
-  <div
-    @click.prevent="!removable && addFilter({ name: item, category: category })"
+  <li
+    @click.prevent="handleFilterClick"
     class="rounded-md font-bold bg-light-grayish-cyan-filter text-desaturated-dark-cyan flex overflow-hidden"
     :class="{
       'cursor-pointer hover:bg-desaturated-dark-cyan hover:text-white hover:transition-hover':
@@ -33,10 +46,10 @@ const { addFilter, removeFilter } = useFiltersStore();
 
     <button
       v-if="removable"
-      @click.prevent="removeFilter(item.name)"
+      @click.prevent="handleRemove(item)"
       class="py-2 px-3 ml-1 bg-desaturated-dark-cyan hover:bg-very-dark-grayish-cyan transition-hover"
     >
       <IconRemove />
     </button>
-  </div>
+  </li>
 </template>
