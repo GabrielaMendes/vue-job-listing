@@ -1,4 +1,4 @@
-# Coffeeroasters subscription site
+# Job Listings site
 
 This project is a self built solution to the [Coffeeroasters subscription site challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/coffeeroasters-subscription-site-5Fc26HVY6).
 
