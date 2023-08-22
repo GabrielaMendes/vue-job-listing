@@ -28,6 +28,6 @@
   }
 
   .circle-divisor {
-    @apply w-1 h-1 bg-very-light-grayisn-cyan rounded-full;
+    @apply w-1 h-1 bg-very-light-grayish-cyan rounded-full;
   }
 }
