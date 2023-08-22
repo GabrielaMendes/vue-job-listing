@@ -18,10 +18,18 @@ const getJobs = async () => {
   });
 };
 
+const compareJobs = (a, b) => {
+  const pointsA = a['featured'] * 2 + a['new'] * 1;
+  const pointsB = b['featured'] * 2 + b['new'] * 1;
+
+  return pointsB - pointsA;
+};
+
 const pendingRequest = ref(true);
 
-onMounted(() => {
-  getJobs();
+onMounted(async() => {
+  await getJobs();
+  fireJobs.value.sort(compareJobs);
   pendingRequest.value = false;
 });
 
