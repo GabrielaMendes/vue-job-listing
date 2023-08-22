@@ -20,18 +20,24 @@ const getJobs = async () => {
 };
 
 const compareJobs = (a, b) => {
-  const pointsA = a['featured'] * 2 + a['new'] * 1;
-  const pointsB = b['featured'] * 2 + b['new'] * 1;
+  const pointsA = a["featured"] * 2 + a["new"] * 1;
+  const pointsB = b["featured"] * 2 + b["new"] * 1;
 
   return pointsB - pointsA;
 };
 
 const pendingRequest = ref(true);
+const fetchingError = ref(false);
 
-onMounted(async() => {
-  await getJobs();
-  fireJobs.value.sort(compareJobs);
-  setTimeout(() => pendingRequest.value = false, 300)
+onMounted(async () => {
+  try {
+    await getJobs();
+    fireJobs.value.sort(compareJobs);
+  } catch {
+    fetchingError.value = true;
+  }
+
+  setTimeout(() => (pendingRequest.value = false), 300);
 });
 
 const filtersStore = useFiltersStore();
@@ -94,22 +100,33 @@ const filteredJobs = computed(() => {
         </button>
       </div>
 
-      <!-- Job listings -->
+      <!-- Loader -->
       <div v-if="pendingRequest" class="text-center">
         <PulseLoader color="#5BA4A4" />
       </div>
-      <transition-group
-        v-else
-        tag="ul"
-        name="grow"
-        :appear="true"
-        class="relative flex flex-col justify-center"
-        :class="{ 'max-md:-translate-y-10': !hasFilters }"
-      >
-        <li v-for="job in filteredJobs" :key="job.id" class="mb-12 md:mb-7">
-          <JobCard :job="job" />
-        </li>
-      </transition-group>
+      
+      <!-- Job listings -->
+      <div v-else>
+        <!-- Error -->
+        <div v-if="fetchingError" class="text-center mx-auto mt-16 italic">
+          <p class="text-3xl text-very-dark-grayish-cyan">Unable to fetch jobs</p>
+          <p class="text-2xl text-dark-grayish-cyan mt-2">Try again later</p>
+        </div>
+
+        <!-- Fetched data -->
+        <transition-group
+          v-else
+          tag="ul"
+          name="grow"
+          :appear="true"
+          class="relative flex flex-col justify-center"
+          :class="{ 'max-md:-translate-y-10': !hasFilters }"
+        >
+          <li v-for="job in filteredJobs" :key="job.id" class="mb-12 md:mb-7">
+            <JobCard :job="job" />
+          </li>
+        </transition-group>
+      </div>
     </main>
   </div>
 </template>
