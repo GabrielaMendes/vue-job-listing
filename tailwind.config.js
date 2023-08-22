@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "desaturated-dark-cyan": " 	#5BA4A4",
+        "desaturated-dark-cyan": "#5BA4A4",
         "light-grayish-cyan-bg": "#EFFAFA",
         "light-grayish-cyan-filter": "#EEF6F6",
         "very-light-grayish-cyan": "#B7C4C4",

@@ -6,6 +6,7 @@ import { useFiltersStore } from "@/stores/filters";
 import { storeToRefs } from "pinia";
 import { computed, onMounted, ref } from "vue";
 import { getDocs } from "firebase/firestore";
+import PulseLoader from "./components/PulseLoader.vue";
 
 const fireJobs = ref([]);
 const getJobs = async () => {
@@ -30,7 +31,7 @@ const pendingRequest = ref(true);
 onMounted(async() => {
   await getJobs();
   fireJobs.value.sort(compareJobs);
-  pendingRequest.value = false;
+  setTimeout(() => pendingRequest.value = false, 300)
 });
 
 const filtersStore = useFiltersStore();
@@ -94,8 +95,11 @@ const filteredJobs = computed(() => {
       </div>
 
       <!-- Job listings -->
+      <div v-if="pendingRequest" class="text-center">
+        <PulseLoader color="#5BA4A4" />
+      </div>
       <transition-group
-        v-if="!pendingRequest"
+        v-else
         tag="ul"
         name="grow"
         :appear="true"
