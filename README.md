@@ -1,35 +1,54 @@
-# job-listing
+# Coffeeroasters subscription site
 
-This template should help get you started developing with Vue 3 in Vite.
+This project is a self built solution to the [Coffeeroasters subscription site challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/coffeeroasters-subscription-site-5Fc26HVY6).
 
-## Recommended IDE Setup
+## Table of contents
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+- [Overview](#overview)
+  - [Features](#features)
+  - [Screenshot](#screenshot)
+  - [Links](#links)
+- [My process](#my-process)
+  - [Built with](#built-with)
+  - [Other libraries](#other-libraries)
+  - [Useful resources](#useful-resources)
 
-## Customize configuration
+## Overview
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+### Features
 
-## Project Setup
+Users should be able to:
+  - View the optimal layout for the interface depending on their device's screen size
+  - Filter job listings based on the categories selected
 
-```sh
-npm install
-```
+### Screenshot
 
-### Compile and Hot-Reload for Development
+Desktop view:
 
-```sh
-npm run dev
-```
+![](./screenshot/screenshot-desktop.png)
 
-### Compile and Minify for Production
+Mobile view:
 
-```sh
-npm run build
-```
+![](./screenshot/screenshot-mobile.png)
 
-### Lint with [ESLint](https://eslint.org/)
+### Links
 
-```sh
-npm run lint
-```
+- Live Site URL: [Job listings](job-listings-vue.vercel.app)
+
+## My process
+
+### Built with
+
+- [Vue.js](https://vuejs.org/) - JS framework
+- [Vite](https://vitejs.dev/) - Frontend build tool
+- [Tailwind Css](https://tailwindcss.com/) - Css framework
+- [Firebase](https://firebase.google.com) - App Development Platform
+
+### Other libraries
+
+- [Pinia](https://pinia.vuejs.org/) - Store for Vue.js
+- [VueFire](https://vuefire.vuejs.org/) - Firebase bindings for Vue.js
+
+### Useful resources
+
+- [vue-spinner](https://github.com/greyby/vue-spinner) - This helped me build the spinner component
