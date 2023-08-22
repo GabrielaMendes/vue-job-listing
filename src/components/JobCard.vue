@@ -1,4 +1,5 @@
 <script setup>
+import { computed, ref } from "vue";
 import { ref as storageRef } from "firebase/storage";
 import { storage } from "@/includes/firebase";
 import { useStorageFile } from "vuefire";
@@ -13,6 +14,13 @@ const props = defineProps({
 
 const fileRef = storageRef(storage, `companies-logo/${props.job.logo}`);
 const { url } = useStorageFile(fileRef);
+
+const loaded = ref(false);
+const onLoaded = () => {
+  loaded.value = true;
+};
+
+const showImg = computed(() => url.value && loaded.value);
 </script>
 
 <template>
@@ -24,17 +32,18 @@ const { url } = useStorageFile(fileRef);
     <div class="shrink-0 flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-6">
       <transition name="grow">
         <img
-          v-if="url"
+          v-show="showImg"
+          @load="onLoaded"
           :src="url"
           alt="Company Logo"
           aria-hidden="true"
-          class="z-50 w-12 h-12 md:w-[5.5rem] md:h-[5.5rem] -mt-[3.2rem] md:mt-0"
+          class="w-12 h-12 md:w-[5.5rem] md:h-[5.5rem] -mt-[3.2rem] md:mt-0"
         />
-        <div
-          v-else
-          class="bg-slate-200 animate-pulse w-12 h-12 md:w-[5.5rem] md:h-[5.5rem] rounded-full -mt-[3.2rem] md:mt-0"
-        ></div>
       </transition>
+      <div
+        v-if="!showImg"
+        class="bg-slate-200 animate-pulse w-12 h-12 md:w-[5.5rem] md:h-[5.5rem] rounded-full -mt-[3.2rem] md:mt-0"
+      ></div>
 
       <div class="flex flex-col gap-3 md:gap-2">
         <div class="flex items-center gap-2 md:gap-3">
