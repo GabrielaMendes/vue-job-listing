@@ -1,12 +1,29 @@
 <script setup>
 import FilterItem from "./components/FilterItem.vue";
 import JobCard from "@/components/JobCard.vue";
-import useJobs from "@/composables/useJobs";
+import { jobsRef } from "@/includes/firebase";
 import { useFiltersStore } from "@/stores/filters";
 import { storeToRefs } from "pinia";
-import { computed } from "vue";
+import { computed, onMounted, ref } from "vue";
+import { getDocs } from "firebase/firestore";
 
-const { jobs } = useJobs();
+const fireJobs = ref([]);
+const getJobs = async () => {
+  const snapshots = await getDocs(jobsRef);
+  snapshots.forEach((document) => {
+    fireJobs.value.push({
+      id: document.id,
+      ...document.data(),
+    });
+  });
+};
+
+const pendingRequest = ref(true);
+
+onMounted(() => {
+  getJobs();
+  pendingRequest.value = false;
+});
 
 const filtersStore = useFiltersStore();
 const { filters } = storeToRefs(filtersStore);
@@ -14,10 +31,10 @@ const hasFilters = computed(() => filters.value.length > 0);
 
 const filteredJobs = computed(() => {
   if (!hasFilters.value) {
-    return jobs;
+    return fireJobs.value;
   }
 
-  return jobs.filter((job) => {
+  return fireJobs.value.filter((job) => {
     for (const filter of filters.value) {
       switch (filter.category) {
         case "role":
@@ -51,11 +68,7 @@ const filteredJobs = computed(() => {
         class="card overflow-hidden min-h-[5rem] py-5 mb-16 md:mb-12 flex items-center justify-between gap-10 transition-opacity duration-300"
         :class="{ 'opacity-0': !hasFilters }"
       >
-        <transition-group
-          tag="ul"
-          name="list"
-          class="relative flex gap-5 flex-wrap"
-        >
+        <transition-group tag="ul" name="list" class="relative flex gap-5 flex-wrap">
           <FilterItem
             v-for="filter in filtersStore.filters"
             :key="filter.name"
@@ -74,6 +87,7 @@ const filteredJobs = computed(() => {
 
       <!-- Job listings -->
       <transition-group
+        v-if="!pendingRequest"
         tag="ul"
         name="grow"
         :appear="true"
